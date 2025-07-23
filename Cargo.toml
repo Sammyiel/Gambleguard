@@ -1,0 +1,49 @@
+[package]
+name = "gambleguard"
+version = "1.0.0"
+edition = "2021"
+authors = ["Code Anything <anycode010@gmail.com>"]
+description = "GambleGuard - Domain blocklist and system safeguard tool."
+license = "MIT"
+readme = "README.md"
+
+# Entry point
+[[bin]]
+name = "gambleguard"
+path = "src/main.rs"
+
+# Hide terminal window on Windows
+[target.'cfg(windows)'.windows_subsystem]
+windows_subsystem = "windows"
+
+[dependencies]
+# HTTP client with blocking support and TLS via rustls
+reqwest = { version = "0.11", features = ["json", "blocking", "rustls-tls"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Logging
+log = "0.4"
+simplelog = "0.12"
+
+# Date/time
+chrono = "0.4"
+
+# Platform-aware directories (e.g., app config path)
+dirs = "6.0.0"
+
+# Lightweight HTTP server (for local GUI, API, or debugging if needed)
+tiny_http = "0.12"
+
+# SHA-256 hashing
+sha2 = "0.10"
+
+[features]
+default = []
+
+[profile.release]
+opt-level = "z" # Better binary size
+lto = true
+strip = "symbols"
